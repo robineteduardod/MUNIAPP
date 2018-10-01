@@ -1,0 +1,22 @@
+DataBases package
+=================
+
+Submodules
+----------
+
+DataBases.db\_conns module
+--------------------------
+
+.. automodule:: DataBases.db_conns
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: DataBases
+    :members:
+    :undoc-members:
+    :show-inheritance:

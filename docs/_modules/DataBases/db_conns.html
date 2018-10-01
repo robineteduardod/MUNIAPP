@@ -1,0 +1,186 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>DataBases.db_conns &#8212; MuniApp 0.2.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for DataBases.db_conns</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
+
+<span class="n">db</span> <span class="o">=</span> <span class="s1">&#39;SolarApp/DataBases/main.db&#39;</span>
+<span class="n">db2</span> <span class="o">=</span> <span class="s1">&#39;SolarApp/DataBases/testapp.db&#39;</span>
+
+
+<span class="c1">#  Set up the database for first use and let it prepared for the next incoming data</span>
+
+
+<div class="viewcode-block" id="first_startup"><a class="viewcode-back" href="../../DataBases.html#DataBases.db_conns.first_startup">[docs]</a><span class="k">def</span> <span class="nf">first_startup</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">     This function check if already is a value into db by the column.id and return a string and a column.id</span>
+<span class="sd">     if not column id is present</span>
+<span class="sd">     Was made with the purpose of keep track from list with different kind and length of data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;select id_personal from personal&#39;&#39;&#39;</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">d</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;ok&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;insert into personal (id_personal) Values ((SELECT seq from sqlite_sequence))&#39;&#39;&#39;</span><span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">msg</span></div>
+
+
+<div class="viewcode-block" id="ImageConn"><a class="viewcode-back" href="../../DataBases.html#DataBases.db_conns.ImageConn">[docs]</a><span class="k">class</span> <span class="nc">ImageConn</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class is responsible for fill values into db</span>
+<span class="sd">    Take two parameters column and value where column is the name of</span>
+<span class="sd">    column choosed by user in the ChartLoader.save_data form</span>
+<span class="sd">    And the value is the choosed by the user from a cohmpresed list</span>
+<span class="sd">    Return a string if will do property and Image Connection object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">column</span> <span class="o">=</span> <span class="n">column</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">val</span>
+
+<div class="viewcode-block" id="ImageConn.procceded_to_db"><a class="viewcode-back" href="../../DataBases.html#DataBases.db_conns.ImageConn.procceded_to_db">[docs]</a>    <span class="k">def</span> <span class="nf">procceded_to_db</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This functions is responsible for checking if the db is set up property right</span>
+<span class="sd">        If it is made the query to the sqlite db updating all fields with the gaven args</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">first_startup</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;ok&#39;</span><span class="p">:</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">column</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val</span>
+            <span class="n">conx</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="n">conx</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;UPDATE personal set&#39;&#39;&#39;</span> <span class="o">+</span> <span class="s1">&#39;&#39;&#39; &#39;&#39;&#39;</span> <span class="o">+</span> <span class="n">q</span> <span class="o">+</span> <span class="s1">&#39;&#39;&#39; = (?) </span>
+<span class="s1">                               where id_personal == (select seq from sqlite_sequence) &#39;&#39;&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">v</span><span class="p">,))</span>
+            <span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">OperationalError</span><span class="p">:</span>
+                <span class="n">warning</span> <span class="o">=</span> <span class="s1">&#39;PLEASE MAKE A CHOOSE&#39;</span>
+                <span class="k">return</span> <span class="n">warning</span>
+            <span class="n">conx</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="n">conx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">return</span> <span class="s1">&#39;data inserted&#39;</span></div></div>
+
+
+<div class="viewcode-block" id="ByHandsInput"><a class="viewcode-back" href="../../DataBases.html#DataBases.db_conns.ByHandsInput">[docs]</a><span class="k">class</span> <span class="nc">ByHandsInput</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;This class creates a input object, is responsible for the user -byhands- input&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">colname</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">datewritten</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">colname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">datewritten</span>
+
+<div class="viewcode-block" id="ByHandsInput.handswritter_input"><a class="viewcode-back" href="../../DataBases.html#DataBases.db_conns.ByHandsInput.handswritter_input">[docs]</a>    <span class="k">def</span> <span class="nf">handswritter_input</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function takes the arg provides by ByHandsInput object and process it</span>
+<span class="sd">        return a error code if a Operational error has been occurred</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span>
+        <span class="n">conx</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">conx</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;INSERT INTO personal (&#39;&#39;&#39;</span> <span class="o">+</span> <span class="n">col</span> <span class="o">+</span> <span class="s1">&#39;&#39;&#39;) VALUES (?)&#39;&#39;&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">,))</span>
+            <span class="n">conx</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="n">conx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">OperationalError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">1</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">MuniApp</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../DataBases.html">DataBases package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Startup.html">Startup package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solar_admin.html">solar_admin package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Helper.html">Helper package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../img_to_file.html">img_to_file package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">SolarApp</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, robinet eduardo daniel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.9</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

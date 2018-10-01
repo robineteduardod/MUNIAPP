@@ -1,0 +1,169 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>DataBases package &#8212; MuniApp 0.2.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Startup package" href="Startup.html" />
+    <link rel="prev" title="Welcome to MuniApp’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="databases-package">
+<h1>DataBases package<a class="headerlink" href="#databases-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-DataBases.db_conns">
+<span id="databases-db-conns-module"></span><h2>DataBases.db_conns module<a class="headerlink" href="#module-DataBases.db_conns" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="DataBases.db_conns.ByHandsInput">
+<em class="property">class </em><code class="descclassname">DataBases.db_conns.</code><code class="descname">ByHandsInput</code><span class="sig-paren">(</span><em>colname=''</em>, <em>datewritten=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DataBases/db_conns.html#ByHandsInput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DataBases.db_conns.ByHandsInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class creates a input object, is responsible for the user -byhands- input</p>
+<dl class="method">
+<dt id="DataBases.db_conns.ByHandsInput.handswritter_input">
+<code class="descname">handswritter_input</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/DataBases/db_conns.html#ByHandsInput.handswritter_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DataBases.db_conns.ByHandsInput.handswritter_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function takes the arg provides by ByHandsInput object and process it
+return a error code if a Operational error has been occurred</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="DataBases.db_conns.ImageConn">
+<em class="property">class </em><code class="descclassname">DataBases.db_conns.</code><code class="descname">ImageConn</code><span class="sig-paren">(</span><em>column=''</em>, <em>val=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DataBases/db_conns.html#ImageConn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DataBases.db_conns.ImageConn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class is responsible for fill values into db
+Take two parameters column and value where column is the name of
+column choosed by user in the ChartLoader.save_data form
+And the value is the choosed by the user from a cohmpresed list
+Return a string if will do property and Image Connection object</p>
+<dl class="method">
+<dt id="DataBases.db_conns.ImageConn.procceded_to_db">
+<code class="descname">procceded_to_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/DataBases/db_conns.html#ImageConn.procceded_to_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DataBases.db_conns.ImageConn.procceded_to_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>This functions is responsible for checking if the db is set up property right
+If it is made the query to the sqlite db updating all fields with the gaven args</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="DataBases.db_conns.first_startup">
+<code class="descclassname">DataBases.db_conns.</code><code class="descname">first_startup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/DataBases/db_conns.html#first_startup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DataBases.db_conns.first_startup" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function check if already is a value into db by the column.id and return a string and a column.id
+if not column id is present
+Was made with the purpose of keep track from list with different kind and length of data</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-DataBases">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-DataBases" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">MuniApp</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">DataBases package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-DataBases.db_conns">DataBases.db_conns module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-DataBases">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Startup.html">Startup package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solar_admin.html">solar_admin package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Helper.html">Helper package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="img_to_file.html">img_to_file package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">SolarApp</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">DataBases package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Helper.html">Helper package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Startup.html">Startup package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="img_to_file.html">img_to_file package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="solar_admin.html">solar_admin package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to MuniApp’s documentation!</a></li>
+      <li>Next: <a href="Startup.html" title="next chapter">Startup package</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, robinet eduardo daniel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.9</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="_sources/DataBases.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

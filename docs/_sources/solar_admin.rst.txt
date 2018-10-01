@@ -1,0 +1,10 @@
+solar\_admin package
+====================
+
+Module contents
+---------------
+
+.. automodule:: solar_admin
+    :members:
+    :undoc-members:
+    :show-inheritance:
