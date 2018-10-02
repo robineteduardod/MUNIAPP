@@ -1,0 +1,10 @@
+img\_to\_file package
+=====================
+
+Module contents
+---------------
+
+.. automodule:: img_to_file
+    :members:
+    :undoc-members:
+    :show-inheritance:
